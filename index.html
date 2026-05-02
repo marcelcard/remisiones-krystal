@@ -96,7 +96,7 @@
   .kr-nro-box {
     border: 2px solid var(--black); border-radius:4px;
     padding:.25rem .6rem; font-weight:700; font-size:1rem; min-width:80px; text-align:center;
-    background: var(--gray);
+    background: var(--gray); font-family:'Barlow',sans-serif; width:90px;
   }
 
   /* CLIENT INFO */
@@ -283,7 +283,7 @@
         <div class="kr-remision-label">Remisión</div>
         <div class="kr-nro-row">
           <span>No.</span>
-          <div class="kr-nro-box" id="nroDisplay">—</div>
+          <input class="kr-nro-box" type="text" id="nroDisplay" placeholder="0001" oninput="markDirty()">
         </div>
         <div style="margin-top:.5rem;">
           <div class="kr-fecha-box" id="fechaBox">
@@ -435,7 +435,24 @@ function buildRows(data) {
     const d = data ? data[i] : {};
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><input class="left" type="text" data-r="${i}" data-f="desc" value="${d&&d.desc||''}" placeholder="Descripción del artículo" oninput="markDirty()"></td>
+      <td><select data-r="${i}" data-f="desc" oninput="markDirty()" style="width:100%;border:none;background:transparent;font-family:'Barlow',sans-serif;font-size:.84rem;color:var(--text);padding:.1rem 0;cursor:pointer;">
+        <option value="">— Seleccionar —</option>
+        <option value="Vidrio Fijo" ${d&&d.desc==='Vidrio Fijo'?'selected':''}>Vidrio Fijo</option>
+        <option value="Vidrio Puerta" ${d&&d.desc==='Vidrio Puerta'?'selected':''}>Vidrio Puerta</option>
+        <option value="Vidrio Personalizado" ${d&&d.desc==='Vidrio Personalizado'?'selected':''}>Vidrio Personalizado</option>
+        <option value="Kit Redondo" ${d&&d.desc==='Kit Redondo'?'selected':''}>Kit Redondo</option>
+        <option value="Bisagras" ${d&&d.desc==='Bisagras'?'selected':''}>Bisagras</option>
+        <option value="Boquetes" ${d&&d.desc==='Boquetes'?'selected':''}>Boquetes</option>
+        <option value="Pie de Amigo" ${d&&d.desc==='Pie de Amigo'?'selected':''}>Pie de Amigo</option>
+        <option value="Tubo 1&quot; Redondo" ${d&&d.desc==='Tubo 1" Redondo'?'selected':''}>Tubo 1" Redondo</option>
+        <option value="Burbuja" ${d&&d.desc==='Burbuja'?'selected':''}>Burbuja</option>
+        <option value="Barredor" ${d&&d.desc==='Barredor'?'selected':''}>Barredor</option>
+        <option value="Instalación" ${d&&d.desc==='Instalación'?'selected':''}>Instalación</option>
+        <option value="Transporte" ${d&&d.desc==='Transporte'?'selected':''}>Transporte</option>
+        <option value="Espejo" ${d&&d.desc==='Espejo'?'selected':''}>Espejo</option>
+        <option value="Pintura Negra" ${d&&d.desc==='Pintura Negra'?'selected':''}>Pintura Negra</option>
+        <option value="Pintura Cromada" ${d&&d.desc==='Pintura Cromada'?'selected':''}>Pintura Cromada</option>
+      </select></td>
       <td><input type="text" data-r="${i}" data-f="tipo" value="${d&&d.tipo||''}" placeholder="Tipo" oninput="markDirty()"></td>
       <td><input type="text" data-r="${i}" data-f="tam" value="${d&&d.tam||''}" placeholder="Ej: 80x120" oninput="markDirty()"></td>
       <td><input type="number" data-r="${i}" data-f="cant" value="${d&&d.cant||''}" placeholder="0" min="0" oninput="calcTotals(); markDirty()"></td>
@@ -497,7 +514,7 @@ function saveAll(arr) {
 function newRemision() {
   currentId = null;
   const nro = getNextNro();
-  document.getElementById('nroDisplay').textContent = String(nro).padStart(4,'0');
+  document.getElementById('nroDisplay').value = String(nro).padStart(4,'0');
   setDate(null);
   ['f_senores','f_direccion','f_telefono','f_correo','f_obs','f_vendedor','f_cliente_firma','f_abono'].forEach(id=>{
     document.getElementById(id).value = '';
@@ -519,7 +536,7 @@ function collectData() {
       precio: document.querySelector(`[data-r="${i}"][data-f="precio"]`)?.value||'',
     });
   }
-  const nro = document.getElementById('nroDisplay').textContent;
+  const nro = document.getElementById('nroDisplay').value;
   const abono = parseFloat(document.getElementById('f_abono').value.replace(/[^0-9.]/g,''))||0;
   let sub=0;
   items.forEach(it=>{ sub += (parseFloat(it.cant)||0)*(parseFloat(it.precio)||0); });
@@ -545,7 +562,7 @@ function collectData() {
 // ─── APPLY ────────────────────────────────────────────────
 function applyData(data) {
   currentId = data.id;
-  document.getElementById('nroDisplay').textContent = data.nro;
+  document.getElementById('nroDisplay').value = data.nro;
   setDate(data.fecha);
   document.getElementById('f_senores').value       = data.senores||'';
   document.getElementById('f_direccion').value     = data.direccion||'';
