@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remisión — Krystal Soluciones</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #111111;
+    --yellow: #FFE600;
+    --yellow-dark: #D4C000;
+    --gray: #f4f4f4;
+    --border: #cccccc;
+    --text: #222222;
+    --muted: #666666;
+    --white: #ffffff;
+    --shadow: rgba(0,0,0,0.10);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: #e8e8e8;
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 100px;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    background: var(--black);
+    color: var(--white);
+    padding: .8rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    flex-wrap: wrap;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .topbar h1 { font-family:'Barlow Condensed',sans-serif; font-size:1.3rem; letter-spacing:.05em; text-transform:uppercase; }
+  .topbar-actions { display:flex; gap:.6rem; flex-wrap:wrap; }
+  .btn { padding:.45rem 1.1rem; border-radius:5px; border:none; font-family:'Barlow',sans-serif; font-weight:600; font-size:.82rem; cursor:pointer; transition:all .2s; text-transform:uppercase; letter-spacing:.04em; }
+  .btn-yellow { background:var(--yellow); color:var(--black); }
+  .btn-yellow:hover { background:var(--yellow-dark); }
+  .btn-outline { background:none; border:1.5px solid rgba(255,255,255,.3); color:var(--white); }
+  .btn-outline:hover { border-color:var(--yellow); color:var(--yellow); }
+  .btn-red { background:#e53935; color:white; }
+  .btn-red:hover { background:#c62828; }
+  .btn:disabled { opacity:.5; cursor:not-allowed; }
+
+  /* CONFIG */
+  .config-bar {
+    background: #fff9c4; border-bottom: 3px solid var(--yellow);
+    padding: .9rem 1.5rem; display:flex; align-items:center; gap:.8rem; flex-wrap:wrap;
+  }
+  .config-bar label { font-size:.78rem; font-weight:600; text-transform:uppercase; letter-spacing:.06em; }
+  .config-bar input {
+    flex:1; min-width:200px; border:1.5px solid var(--yellow-dark); border-radius:5px;
+    padding:.42rem .8rem; font-family:'Barlow',sans-serif; font-size:.85rem;
+  }
+  .config-bar.hidden { display:none; }
+
+  /* MAIN */
+  .main { max-width:900px; margin:1.5rem auto; padding:0 1rem; display:grid; gap:1.2rem; }
+
+  /* REMISION CARD */
+  .card {
+    background: var(--white);
+    border-radius:10px;
+    box-shadow: 0 3px 20px var(--shadow);
+    overflow: hidden;
+  }
+
+  /* KRYSTAL HEADER */
+  .kr-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem .8rem;
+    border-bottom: 2px solid var(--black);
+  }
+  .kr-logo-area { display:flex; flex-direction:column; align-items:center; }
+  .kr-logo-svg { width:52px; }
+  .kr-brand { font-family:'Barlow Condensed',sans-serif; font-size:.85rem; font-weight:700; letter-spacing:.08em; line-height:1.1; text-align:center; margin-top:.2rem; }
+  .kr-center { text-align:center; }
+  .kr-title1 { font-family:'Barlow Condensed',sans-serif; font-size:1.1rem; font-weight:700; letter-spacing:.06em; }
+  .kr-title2 {
+    background: var(--yellow); color:var(--black);
+    font-family:'Barlow Condensed',sans-serif; font-size:1.15rem; font-weight:700;
+    letter-spacing:.06em; padding:.2rem 1rem; margin:.3rem 0; display:inline-block; border-radius:3px;
+  }
+  .kr-phone { font-size:.82rem; font-weight:600; }
+  .kr-remision-box { text-align:right; }
+  .kr-remision-label { font-family:'Barlow Condensed',sans-serif; font-size:1rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+  .kr-nro-row { display:flex; align-items:center; gap:.5rem; margin-top:.3rem; }
+  .kr-nro-row span { font-size:.75rem; font-weight:600; }
+  .kr-nro-box {
+    border: 2px solid var(--black); border-radius:4px;
+    padding:.25rem .6rem; font-weight:700; font-size:1rem; min-width:80px; text-align:center;
+    background: var(--gray);
+  }
+
+  /* CLIENT INFO */
+  .kr-client { padding:.8rem 1.2rem; border-bottom:1px solid var(--border); display:grid; gap:.4rem; }
+  .kr-row { display:grid; grid-template-columns:80px 1fr; align-items:center; gap:.4rem; }
+  .kr-row-2 { display:grid; grid-template-columns:80px 1fr 80px 1fr; align-items:center; gap:.4rem; }
+  .kr-lbl { font-size:.75rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+  .kr-input {
+    border:none; border-bottom:1.5px solid var(--border); padding:.3rem .4rem;
+    font-family:'Barlow',sans-serif; font-size:.88rem; color:var(--text);
+    background: transparent; width:100%; transition:border-color .2s;
+  }
+  .kr-input:focus { outline:none; border-color:var(--black); }
+  .kr-input::placeholder { color:#bbb; font-size:.82rem; }
+
+  /* FECHA */
+  .kr-fecha-box {
+    border:2px solid var(--border); border-radius:5px; overflow:hidden;
+    display:inline-grid; grid-template-columns:1fr 1px 1fr 1px 1fr;
+    font-size:.75rem;
+  }
+  .kr-fecha-cell { text-align:center; }
+  .kr-fecha-cell .fc-lbl { background:var(--gray); padding:.15rem .3rem; font-weight:700; font-size:.65rem; letter-spacing:.06em; }
+  .kr-fecha-cell .fc-val { padding:.2rem .3rem; font-weight:600; font-size:.82rem; min-width:28px; }
+  .kr-fecha-sep { background:var(--border); }
+
+  /* TABLE */
+  .kr-table-wrap { padding: 0 1.2rem; }
+  table { width:100%; border-collapse:collapse; font-size:.84rem; }
+  thead tr { background:var(--gray); }
+  th {
+    padding:.5rem .4rem; text-align:center; font-weight:700; font-size:.72rem;
+    text-transform:uppercase; letter-spacing:.05em; border:1px solid var(--border);
+  }
+  th.desc { text-align:left; }
+  td { border:1px solid var(--border); padding:.3rem .4rem; vertical-align:middle; }
+  td input {
+    width:100%; border:none; background:transparent; font-family:'Barlow',sans-serif;
+    font-size:.84rem; color:var(--text); text-align:center; padding:0;
+  }
+  td input:focus { outline:none; background:#fffde7; border-radius:2px; }
+  td input.left { text-align:left; }
+  td.total-cell { background:var(--gray); font-weight:600; text-align:right; padding-right:.5rem; font-size:.84rem; }
+  tr:hover td { background:#fafafa; }
+  tr:hover td.total-cell { background:#f0f0f0; }
+
+  /* FOOTER TABLE */
+  .kr-footer { display:grid; grid-template-columns:1fr auto; gap:0; border-top:2px solid var(--black); }
+  .kr-obs { padding:.8rem 1.2rem; border-right:2px solid var(--black); }
+  .kr-obs-lbl { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:.3rem; }
+  .kr-obs textarea {
+    width:100%; border:none; font-family:'Barlow',sans-serif; font-size:.84rem;
+    resize:none; min-height:60px; background:transparent; color:var(--text);
+  }
+  .kr-obs textarea:focus { outline:none; }
+  .kr-totals { min-width:240px; }
+  .kr-total-row {
+    display:grid; grid-template-columns:1fr auto;
+    align-items:center; border-bottom:1px solid var(--border);
+  }
+  .kr-total-row:last-child { border-bottom:none; }
+  .kr-total-lbl { padding:.45rem .8rem; font-size:.78rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em; border-right:1px solid var(--border); }
+  .kr-total-val {
+    padding:.45rem .8rem; font-weight:700; font-size:.88rem; text-align:right;
+    min-width:100px;
+  }
+  .kr-total-row.gran-total { background:var(--yellow); }
+  .kr-total-row.gran-total .kr-total-lbl,
+  .kr-total-row.gran-total .kr-total-val { font-size:.95rem; }
+  .kr-total-input {
+    border:none; background:transparent; font-family:'Barlow',sans-serif;
+    font-weight:700; font-size:.88rem; text-align:right; width:100%; padding:0; color:var(--text);
+  }
+  .kr-total-input:focus { outline:none; background:#fff9c4; border-radius:2px; }
+
+  /* SIGNATURES */
+  .kr-sign { display:grid; grid-template-columns:1fr 1fr; border-top:2px solid var(--black); }
+  .kr-sign-cell { padding:.6rem 1.2rem; }
+  .kr-sign-cell:first-child { border-right:1px solid var(--border); }
+  .kr-sign-lbl { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:.3rem; }
+  .kr-sign-input {
+    border:none; border-bottom:1.5px solid var(--border); width:100%;
+    font-family:'Barlow',sans-serif; font-size:.88rem; padding:.2rem .2rem;
+    background:transparent; color:var(--text);
+  }
+  .kr-sign-input:focus { outline:none; border-color:var(--black); }
+
+  /* BOTTOM INFO */
+  .kr-bottom {
+    background:var(--black); color:var(--white);
+    padding:.55rem 1.2rem; display:flex; align-items:center; justify-content:space-between;
+    gap:.5rem; flex-wrap:wrap; font-size:.72rem;
+  }
+  .kr-bottom span { display:flex; align-items:center; gap:.3rem; }
+
+  /* HISTORY */
+  .hist-panel { background:white; border-radius:10px; box-shadow:0 3px 20px var(--shadow); overflow:hidden; display:none; }
+  .hist-panel.open { display:block; }
+  .hist-top { background:var(--black); color:white; padding:.8rem 1.2rem; display:flex; align-items:center; justify-content:space-between; }
+  .hist-top span { font-family:'Barlow Condensed',sans-serif; font-size:1rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+  .hist-list { max-height:300px; overflow-y:auto; }
+  .hist-row { display:grid; grid-template-columns:80px 1fr auto auto; align-items:center; gap:.8rem; padding:.65rem 1.2rem; border-bottom:1px solid var(--border); cursor:pointer; transition:background .15s; }
+  .hist-row:hover { background:var(--gray); }
+  .hist-nro { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:1rem; }
+  .hist-cliente { font-size:.84rem; }
+  .hist-fecha { font-size:.74rem; color:var(--muted); }
+  .hist-total { font-weight:700; font-size:.88rem; }
+  .empty-hist { text-align:center; padding:2rem; opacity:.4; font-size:.85rem; }
+
+  /* SAVE BAR */
+  .save-bar {
+    position:fixed; bottom:0; left:0; right:0; background:var(--black);
+    padding:.85rem 1.5rem; display:flex; align-items:center; justify-content:space-between;
+    gap:1rem; z-index:200; flex-wrap:wrap;
+  }
+  .save-status { font-size:.78rem; }
+  .st-unsaved { color:var(--yellow); }
+  .st-saved { color:#66bb6a; }
+  .st-loading { color:#aaa; }
+  .st-error { color:#ef5350; }
+
+  @media(max-width:620px){
+    .kr-header { grid-template-columns:1fr; text-align:center; }
+    .kr-row-2 { grid-template-columns:70px 1fr; }
+    .kr-footer { grid-template-columns:1fr; }
+    .kr-obs { border-right:none; border-bottom:2px solid var(--black); }
+    .kr-totals { min-width:unset; }
+    .hist-row { grid-template-columns:60px 1fr auto; }
+    .hist-fecha { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <h1>📋 Remisiones · Krystal Soluciones</h1>
+  <div class="topbar-actions">
+    <button class="btn btn-outline" onclick="toggleHistory()">📂 Historial</button>
+    <button class="btn btn-outline" onclick="newRemision()">➕ Nueva</button>
+    <button class="btn btn-outline" onclick="printRemision()">🖨️ Imprimir</button>
+    <button class="btn btn-yellow" id="btnSave" onclick="saveRemision()">💾 Guardar</button>
+  </div>
+</div>
+
+<!-- CONFIG -->
+<div class="config-bar" id="configBar">
+  <label>⚙️ Apps Script URL:</label>
+  <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/TU_ID/exec">
+  <button class="btn btn-yellow" onclick="saveScriptUrl()">✓ Guardar</button>
+</div>
+
+<div class="main">
+
+  <!-- HISTORIAL -->
+  <div class="hist-panel" id="histPanel">
+    <div class="hist-top">
+      <span>Historial de Remisiones</span>
+      <button class="btn btn-outline" onclick="toggleHistory()" style="padding:.3rem .8rem;font-size:.75rem;">Cerrar</button>
+    </div>
+    <div class="hist-list" id="histList"><p class="empty-hist">No hay remisiones guardadas.</p></div>
+  </div>
+
+  <!-- REMISION CARD -->
+  <div class="card" id="remisionCard">
+
+    <!-- HEADER KRYSTAL -->
+    <div class="kr-header">
+      <div class="kr-logo-area">
+        <svg class="kr-logo-svg" viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="10" width="10" height="50" fill="#111"/>
+          <rect x="22" y="25" width="10" height="35" fill="#111"/>
+          <rect x="36" y="15" width="10" height="45" fill="#111"/>
+          <rect x="8" y="8" width="38" height="5" fill="#FFE600"/>
+        </svg>
+        <div class="kr-brand">KRYSTAL<br>SOLUCIONES</div>
+      </div>
+      <div class="kr-center">
+        <div class="kr-title1">VIDRIO · ACERO · ALUMINIO</div>
+        <div class="kr-title2">DIVISIONES DE BAÑO</div>
+        <div class="kr-phone">📱 313 267 47 07 &nbsp;·&nbsp; 313 212 76 92</div>
+      </div>
+      <div class="kr-remision-box">
+        <div class="kr-remision-label">Remisión</div>
+        <div class="kr-nro-row">
+          <span>No.</span>
+          <div class="kr-nro-box" id="nroDisplay">—</div>
+        </div>
+        <div style="margin-top:.5rem;">
+          <div class="kr-fecha-box" id="fechaBox">
+            <div class="kr-fecha-cell"><div class="fc-lbl">D</div><div class="fc-val" id="fd">—</div></div>
+            <div class="kr-fecha-sep"></div>
+            <div class="kr-fecha-cell"><div class="fc-lbl">M</div><div class="fc-val" id="fm">—</div></div>
+            <div class="kr-fecha-sep"></div>
+            <div class="kr-fecha-cell"><div class="fc-lbl">A</div><div class="fc-val" id="fa">—</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLIENT INFO -->
+    <div class="kr-client">
+      <div class="kr-row">
+        <span class="kr-lbl">Señores:</span>
+        <input class="kr-input" id="f_senores" type="text" placeholder="Nombre del cliente" oninput="markDirty()">
+      </div>
+      <div class="kr-row">
+        <span class="kr-lbl">Dirección:</span>
+        <input class="kr-input" id="f_direccion" type="text" placeholder="Dirección de entrega" oninput="markDirty()">
+      </div>
+      <div class="kr-row-2">
+        <span class="kr-lbl">Teléfono:</span>
+        <input class="kr-input" id="f_telefono" type="text" placeholder="Teléfono" oninput="markDirty()">
+        <span class="kr-lbl">Correo:</span>
+        <input class="kr-input" id="f_correo" type="email" placeholder="correo@email.com" oninput="markDirty()">
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="kr-table-wrap">
+      <table id="itemsTable">
+        <thead>
+          <tr>
+            <th class="desc" style="width:35%">Descripción</th>
+            <th style="width:12%">Tipo</th>
+            <th style="width:14%">Tamaño</th>
+            <th style="width:8%">Cant</th>
+            <th style="width:13%">Precio</th>
+            <th style="width:13%">Total</th>
+          </tr>
+        </thead>
+        <tbody id="itemsBody"></tbody>
+      </table>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="kr-footer">
+      <div class="kr-obs">
+        <div class="kr-obs-lbl">Observaciones:</div>
+        <textarea id="f_obs" placeholder="Notas adicionales, condiciones de entrega..." oninput="markDirty()"></textarea>
+      </div>
+      <div class="kr-totals">
+        <div class="kr-total-row">
+          <div class="kr-total-lbl">Subtotal</div>
+          <div class="kr-total-val" id="tv_subtotal">$ 0</div>
+        </div>
+        <div class="kr-total-row">
+          <div class="kr-total-lbl">Abono</div>
+          <div class="kr-total-val">
+            <input class="kr-total-input" id="f_abono" type="text" placeholder="$ 0" oninput="calcTotals(); markDirty()">
+          </div>
+        </div>
+        <div class="kr-total-row">
+          <div class="kr-total-lbl">Saldo</div>
+          <div class="kr-total-val" id="tv_saldo">$ 0</div>
+        </div>
+        <div class="kr-total-row gran-total">
+          <div class="kr-total-lbl">TOTAL</div>
+          <div class="kr-total-val" id="tv_total">$ 0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNATURES -->
+    <div class="kr-sign">
+      <div class="kr-sign-cell">
+        <div class="kr-sign-lbl">Vendedor:</div>
+        <input class="kr-sign-input" id="f_vendedor" type="text" placeholder="Nombre del vendedor" oninput="markDirty()">
+      </div>
+      <div class="kr-sign-cell">
+        <div class="kr-sign-lbl">Cliente:</div>
+        <input class="kr-sign-input" id="f_cliente_firma" type="text" placeholder="Firma / Nombre de recibido" oninput="markDirty()">
+      </div>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="kr-bottom">
+      <span>📍 Calle 68 No. 27-06 (Esquina) · Bogotá</span>
+      <span>✉️ krystaleros@gmail.com</span>
+      <span>📘📷 @krystalsoluciones</span>
+    </div>
+
+  </div><!-- /card -->
+</div><!-- /main -->
+
+<!-- SAVE BAR -->
+<div class="save-bar">
+  <div class="save-status st-unsaved" id="saveStatus">Nueva remisión</div>
+  <button class="btn btn-yellow" id="btnSave2" onclick="saveRemision()">💾 Guardar remisión</button>
+</div>
+
+<style>
+@media print {
+  .topbar, .config-bar, .save-bar, .hist-panel, .topbar-actions { display:none!important; }
+  body { background:white; padding:0; }
+  .main { margin:0; padding:0; max-width:100%; }
+  .card { box-shadow:none; border-radius:0; }
+}
+</style>
+
+<script>
+// ─── CONFIG ──────────────────────────────────────────────
+const SK = 'krystal_script_url';
+const RK = 'krystal_remisiones';
+let SCRIPT_URL = localStorage.getItem(SK) || '';
+let currentId = null;
+let dirty = false;
+
+// ─── INIT ─────────────────────────────────────────────────
+window.onload = () => {
+  checkConfig();
+  buildRows();
+  newRemision();
+};
+
+function checkConfig() {
+  const bar = document.getElementById('configBar');
+  if(SCRIPT_URL) { bar.classList.add('hidden'); }
+  else { document.getElementById('scriptUrlInput').value = SCRIPT_URL; }
+}
+
+function saveScriptUrl() {
+  const v = document.getElementById('scriptUrlInput').value.trim();
+  if(!v.startsWith('https://script.google.com')) { alert('URL inválida.'); return; }
+  SCRIPT_URL = v;
+  localStorage.setItem(SK, v);
+  document.getElementById('configBar').classList.add('hidden');
+  setStatus('✓ URL configurada', 'saved');
+}
+
+// ─── ROWS ─────────────────────────────────────────────────
+function buildRows(data) {
+  const tbody = document.getElementById('itemsBody');
+  tbody.innerHTML = '';
+  for(let i=0;i<5;i++){
+    const d = data ? data[i] : {};
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input class="left" type="text" data-r="${i}" data-f="desc" value="${d&&d.desc||''}" placeholder="Descripción del artículo" oninput="markDirty()"></td>
+      <td><input type="text" data-r="${i}" data-f="tipo" value="${d&&d.tipo||''}" placeholder="Tipo" oninput="markDirty()"></td>
+      <td><input type="text" data-r="${i}" data-f="tam" value="${d&&d.tam||''}" placeholder="Ej: 80x120" oninput="markDirty()"></td>
+      <td><input type="number" data-r="${i}" data-f="cant" value="${d&&d.cant||''}" placeholder="0" min="0" oninput="calcTotals(); markDirty()"></td>
+      <td><input type="number" data-r="${i}" data-f="precio" value="${d&&d.precio||''}" placeholder="0" min="0" oninput="calcTotals(); markDirty()"></td>
+      <td class="total-cell" id="rowTotal${i}">$ 0</td>
+    `;
+    tbody.appendChild(tr);
+  }
+  calcTotals();
+}
+
+// ─── TOTALS ───────────────────────────────────────────────
+function calcTotals() {
+  let sub = 0;
+  for(let i=0;i<5;i++){
+    const cant  = parseFloat(document.querySelector(`[data-r="${i}"][data-f="cant"]`)?.value)||0;
+    const precio= parseFloat(document.querySelector(`[data-r="${i}"][data-f="precio"]`)?.value)||0;
+    const total = cant * precio;
+    const el = document.getElementById('rowTotal'+i);
+    if(el) el.textContent = fmt(total);
+    sub += total;
+  }
+  const abono = parseFloat(document.getElementById('f_abono').value.replace(/[^0-9.]/g,''))||0;
+  const saldo  = sub - abono;
+  document.getElementById('tv_subtotal').textContent = fmt(sub);
+  document.getElementById('tv_saldo').textContent    = fmt(saldo);
+  document.getElementById('tv_total').textContent    = fmt(sub);
+}
+
+function fmt(n) {
+  return '$ ' + Math.round(n).toLocaleString('es-CO');
+}
+
+// ─── DATE ─────────────────────────────────────────────────
+function setDate(dateStr) {
+  const d = dateStr ? new Date(dateStr+'T12:00:00') : new Date();
+  document.getElementById('fd').textContent = String(d.getDate()).padStart(2,'0');
+  document.getElementById('fm').textContent = String(d.getMonth()+1).padStart(2,'0');
+  document.getElementById('fa').textContent = String(d.getFullYear()).slice(-2);
+}
+
+// ─── NRO ──────────────────────────────────────────────────
+function getNextNro() {
+  const rems = getAll();
+  if(!rems.length) return 1;
+  const max = Math.max(...rems.map(r=>parseInt(r.nro)||0));
+  return max + 1;
+}
+
+function getAll() {
+  return JSON.parse(localStorage.getItem(RK)||'[]');
+}
+
+function saveAll(arr) {
+  localStorage.setItem(RK, JSON.stringify(arr));
+}
+
+// ─── NEW ──────────────────────────────────────────────────
+function newRemision() {
+  currentId = null;
+  const nro = getNextNro();
+  document.getElementById('nroDisplay').textContent = String(nro).padStart(4,'0');
+  setDate(null);
+  ['f_senores','f_direccion','f_telefono','f_correo','f_obs','f_vendedor','f_cliente_firma','f_abono'].forEach(id=>{
+    document.getElementById(id).value = '';
+  });
+  buildRows();
+  setStatus('Nueva remisión · No. '+String(nro).padStart(4,'0'), 'unsaved');
+  dirty = false;
+}
+
+// ─── COLLECT ──────────────────────────────────────────────
+function collectData() {
+  const items = [];
+  for(let i=0;i<5;i++){
+    items.push({
+      desc:   document.querySelector(`[data-r="${i}"][data-f="desc"]`)?.value||'',
+      tipo:   document.querySelector(`[data-r="${i}"][data-f="tipo"]`)?.value||'',
+      tam:    document.querySelector(`[data-r="${i}"][data-f="tam"]`)?.value||'',
+      cant:   document.querySelector(`[data-r="${i}"][data-f="cant"]`)?.value||'',
+      precio: document.querySelector(`[data-r="${i}"][data-f="precio"]`)?.value||'',
+    });
+  }
+  const nro = document.getElementById('nroDisplay').textContent;
+  const abono = parseFloat(document.getElementById('f_abono').value.replace(/[^0-9.]/g,''))||0;
+  let sub=0;
+  items.forEach(it=>{ sub += (parseFloat(it.cant)||0)*(parseFloat(it.precio)||0); });
+  return {
+    id: currentId || Date.now(),
+    nro,
+    fecha: new Date().toISOString().split('T')[0],
+    senores:     document.getElementById('f_senores').value,
+    direccion:   document.getElementById('f_direccion').value,
+    telefono:    document.getElementById('f_telefono').value,
+    correo:      document.getElementById('f_correo').value,
+    vendedor:    document.getElementById('f_vendedor').value,
+    cliente_firma: document.getElementById('f_cliente_firma').value,
+    obs:         document.getElementById('f_obs').value,
+    abono:       String(abono),
+    total:       String(sub),
+    saldo:       String(sub - abono),
+    items:       JSON.stringify(items),
+    savedAt:     new Date().toISOString(),
+  };
+}
+
+// ─── APPLY ────────────────────────────────────────────────
+function applyData(data) {
+  currentId = data.id;
+  document.getElementById('nroDisplay').textContent = data.nro;
+  setDate(data.fecha);
+  document.getElementById('f_senores').value       = data.senores||'';
+  document.getElementById('f_direccion').value     = data.direccion||'';
+  document.getElementById('f_telefono').value      = data.telefono||'';
+  document.getElementById('f_correo').value        = data.correo||'';
+  document.getElementById('f_vendedor').value      = data.vendedor||'';
+  document.getElementById('f_cliente_firma').value = data.cliente_firma||'';
+  document.getElementById('f_obs').value           = data.obs||'';
+  document.getElementById('f_abono').value         = data.abono||'';
+  const items = data.items ? JSON.parse(data.items) : [];
+  buildRows(items);
+}
+
+// ─── SAVE ────────────────────────────────────────────────
+async function saveRemision() {
+  const data = collectData();
+  // Local
+  const all = getAll();
+  const idx = all.findIndex(r=>r.id===data.id);
+  if(idx>=0) all[idx]=data; else all.push(data);
+  saveAll(all);
+  currentId = data.id;
+  setStatus('✓ Guardada · Remisión No. '+data.nro+' · '+new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'}), 'saved');
+  dirty = false;
+  renderHistory();
+  // Google Sheets
+  if(SCRIPT_URL) {
+    try {
+      const flat = {...data};
+      const params = new URLSearchParams({ action:'save', data: JSON.stringify(flat) });
+      await fetch(SCRIPT_URL+'?'+params.toString(), {method:'GET', mode:'no-cors'});
+    } catch(e){}
+  }
+}
+
+// ─── STATUS ──────────────────────────────────────────────
+function setStatus(msg, type) {
+  const el = document.getElementById('saveStatus');
+  el.textContent = msg;
+  el.className = 'save-status st-'+type;
+}
+
+function markDirty() {
+  dirty = true;
+  setStatus('⚠ Cambios sin guardar', 'unsaved');
+  calcTotals();
+}
+
+// ─── HISTORY ─────────────────────────────────────────────
+function toggleHistory() {
+  const p = document.getElementById('histPanel');
+  p.classList.toggle('open');
+  if(p.classList.contains('open')) renderHistory();
+}
+
+function renderHistory() {
+  const list = document.getElementById('histList');
+  const all = getAll().slice().reverse();
+  if(!all.length){ list.innerHTML='<p class="empty-hist">No hay remisiones guardadas.</p>'; return; }
+  list.innerHTML = all.map(r=>`
+    <div class="hist-row" onclick="loadRemision('${r.id}')">
+      <div class="hist-nro">No. ${r.nro}</div>
+      <div class="hist-cliente">${r.senores||'Sin nombre'}</div>
+      <div class="hist-fecha">${formatDate(r.fecha)}</div>
+      <div class="hist-total">${fmt(parseFloat(r.total)||0)}</div>
+    </div>
+  `).join('');
+}
+
+function loadRemision(id) {
+  const all = getAll();
+  const r = all.find(x=>String(x.id)===String(id));
+  if(!r) return;
+  applyData(r);
+  document.getElementById('histPanel').classList.remove('open');
+  setStatus('Remisión No. '+r.nro+' · '+formatDate(r.fecha), 'saved');
+  dirty = false;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function formatDate(d) {
+  if(!d) return '';
+  const [y,m,day] = d.split('-');
+  const months=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  return `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;
+}
+
+function printRemision() {
+  window.print();
+}
+
+window.onbeforeunload = e => { if(dirty) return ''; };
+</script>
+</body>
+</html>
