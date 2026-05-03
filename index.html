@@ -292,18 +292,18 @@ const SK     = 'krystal_script_url';
 const RK     = 'krystal_remisiones_v3';
 const N_ROWS = 6;
 
-let SCRIPT_URL = localStorage.getItem(SK) || '';
+let SCRIPT_URL = localStorage.getItem(SK) || 'https://script.google.com/macros/s/AKfycbxusVBQq9FjAMKrzabtrmjx7uSvyLJXtG3ZiTf7lCUExOvtgs73AzxbxPP91ltTg3wI/exec';
 let currentId  = null;
 let dirty      = false;
 let productos  = [];
 
 // ─── INIT ─────────────────────────────────────────────────────
-window.onload = () => {
+window.onload = async () => {
   checkConfig();
   setDate(null);
   buildRows([]);
   newRemision();
-  if (SCRIPT_URL) cargarProductos();
+  if (SCRIPT_URL) await cargarProductos();
 };
 
 // ─── CONFIG ───────────────────────────────────────────────────
@@ -336,35 +336,21 @@ function setBanner(msg, tipo, autoHide) {
   if (autoHide) _bt = setTimeout(() => { el.className = 'banner'; }, autoHide);
 }
 
-// ─── CARGAR PRODUCTOS VIA JSONP (evita bloqueo CORS) ─────────
-function cargarProductos() {
+// ─── CARGAR PRODUCTOS VIA FETCH ───────────────────────────────
+async function cargarProductos() {
   if (!SCRIPT_URL) return;
   setBanner('⏳ Cargando productos del inventario...', 'info');
-
-  // Definir callback global que Google invocará
-  window.jsonpCallback = function(data) {
-    if (!data || data.error) {
-      setBanner('⚠ Error cargando inventario: ' + (data ? data.error : 'sin respuesta'), 'err');
-      buildRows(collectItems());
-      return;
-    }
+  try {
+    const resp = await fetch(SCRIPT_URL, { method: 'GET', cache: 'no-cache' });
+    const data = await resp.json();
+    if (!data || data.error) throw new Error(data ? data.error : 'sin respuesta');
     productos = data;
     setBanner('✓ ' + productos.length + ' productos cargados · Stock actualizado', 'ok', 4000);
     buildRows(collectItems());
-  };
-
-  // Eliminar script anterior si existe
-  const old = document.getElementById('_jsonp');
-  if (old) old.remove();
-
-  // Inyectar nueva etiqueta script con ?callback=jsonpCallback
-  const s = document.createElement('script');
-  s.id  = '_jsonp';
-  s.src = SCRIPT_URL + '?callback=jsonpCallback&t=' + Date.now();
-  s.onerror = () => {
-    setBanner('⚠ No se pudo conectar con el inventario', 'err');
-  };
-  document.body.appendChild(s);
+  } catch (err) {
+    setBanner('⚠ No se pudo conectar con el inventario: ' + err.message, 'err');
+    buildRows(collectItems());
+  }
 }
 
 function recargarStock() {
