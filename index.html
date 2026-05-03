@@ -668,32 +668,12 @@ async function saveRemision() {
   setStatus('⏳ Sincronizando con Sheets...', 'loading');
   document.querySelectorAll('.btn').forEach(b => b.disabled = true);
 
-  try {
-    // Enviamos como POST con body JSON
-    // El script retorna JSON { ok, renglones } o { ok:false, error }
-    // Usamos no-cors porque el script es de Google (no soporta CORS real),
-    // pero primero intentamos con cors para leer la respuesta si es posible
-    let respOk = true;
-    let errMsg  = '';
-
-    try {
-      const resp = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' }, // evita preflight
-        body: JSON.stringify({ ...data }),
-      });
-      const json = await resp.json();
-      if (!json.ok) { respOk = false; errMsg = json.error || 'Error desconocido'; }
-    } catch (_) {
-      // Fallback no-cors (no podemos leer respuesta pero el POST llega)
-      await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        cache: 'no-cache',
-        body: JSON.stringify({ ...data }),
-      });
-    }
-
+ await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      cache: 'no-cache',
+      body: JSON.stringify({ ...data }),
+    });
     if (!respOk) {
       setBanner('❌ ' + errMsg, 'err');
       setStatus('❌ Error al guardar: ' + errMsg, 'err');
