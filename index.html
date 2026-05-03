@@ -6,248 +6,187 @@
 <title>Remisión — Krystal Soluciones</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --black: #111111;
-    --yellow: #FFE600;
-    --yellow-dark: #D4C000;
-    --gray: #f4f4f4;
-    --border: #cccccc;
-    --text: #222222;
-    --muted: #666666;
-    --white: #ffffff;
-    --shadow: rgba(0,0,0,0.10);
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: 'Barlow', sans-serif;
-    background: #e8e8e8;
-    color: var(--text);
-    min-height: 100vh;
-    padding-bottom: 100px;
-  }
+:root {
+  --black:#111; --yellow:#FFE600; --yd:#D4C000;
+  --gray:#f4f4f4; --border:#ccc; --text:#222;
+  --muted:#666; --white:#fff; --shadow:rgba(0,0,0,.10);
+  --red:#e53935; --green:#2e7d32; --blue:#1565c0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Barlow',sans-serif;background:#e8e8e8;color:var(--text);min-height:100vh;padding-bottom:90px}
 
-  /* TOP BAR */
-  .topbar {
-    background: var(--black);
-    color: var(--white);
-    padding: .8rem 1.5rem;
-    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-    flex-wrap: wrap;
-    position: sticky; top: 0; z-index: 100;
-  }
-  .topbar h1 { font-family:'Barlow Condensed',sans-serif; font-size:1.3rem; letter-spacing:.05em; text-transform:uppercase; }
-  .topbar-actions { display:flex; gap:.6rem; flex-wrap:wrap; }
-  .btn { padding:.45rem 1.1rem; border-radius:5px; border:none; font-family:'Barlow',sans-serif; font-weight:600; font-size:.82rem; cursor:pointer; transition:all .2s; text-transform:uppercase; letter-spacing:.04em; }
-  .btn-yellow { background:var(--yellow); color:var(--black); }
-  .btn-yellow:hover { background:var(--yellow-dark); }
-  .btn-outline { background:none; border:1.5px solid rgba(255,255,255,.3); color:var(--white); }
-  .btn-outline:hover { border-color:var(--yellow); color:var(--yellow); }
-  .btn-red { background:#e53935; color:white; }
-  .btn-red:hover { background:#c62828; }
-  .btn:disabled { opacity:.5; cursor:not-allowed; }
+/* TOP BAR */
+.topbar{background:var(--black);color:var(--white);padding:.8rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;position:sticky;top:0;z-index:100}
+.topbar h1{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;letter-spacing:.05em;text-transform:uppercase}
+.topbar-btns{display:flex;gap:.5rem;flex-wrap:wrap}
+.btn{padding:.45rem 1.1rem;border-radius:5px;border:none;font-family:'Barlow',sans-serif;font-weight:600;font-size:.82rem;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:.04em}
+.btn-yellow{background:var(--yellow);color:var(--black)}
+.btn-yellow:hover{background:var(--yd)}
+.btn-outline{background:none;border:1.5px solid rgba(255,255,255,.3);color:var(--white)}
+.btn-outline:hover{border-color:var(--yellow);color:var(--yellow)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
 
-  /* CONFIG */
-  .config-bar {
-    background: #fff9c4; border-bottom: 3px solid var(--yellow);
-    padding: .9rem 1.5rem; display:flex; align-items:center; gap:.8rem; flex-wrap:wrap;
-  }
-  .config-bar label { font-size:.78rem; font-weight:600; text-transform:uppercase; letter-spacing:.06em; }
-  .config-bar input {
-    flex:1; min-width:200px; border:1.5px solid var(--yellow-dark); border-radius:5px;
-    padding:.42rem .8rem; font-family:'Barlow',sans-serif; font-size:.85rem;
-  }
-  .config-bar.hidden { display:none; }
+/* CONFIG BAR */
+.config-bar{background:#fff9c4;border-bottom:3px solid var(--yellow);padding:.9rem 1.5rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.config-bar.hidden{display:none}
+.config-bar label{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.config-bar input{flex:1;min-width:220px;border:1.5px solid var(--yd);border-radius:5px;padding:.42rem .8rem;font-family:'Barlow',sans-serif;font-size:.85rem}
 
-  /* MAIN */
-  .main { max-width:900px; margin:1.5rem auto; padding:0 1rem; display:grid; gap:1.2rem; }
+/* BANNER */
+.banner{padding:.55rem 1.5rem;font-size:.78rem;font-weight:600;display:none;align-items:center;gap:.5rem}
+.banner.show{display:flex}
+.banner.info{background:#e3f2fd;color:var(--blue)}
+.banner.ok{background:#e8f5e9;color:var(--green)}
+.banner.warn{background:#fff3e0;color:#e65100}
+.banner.err{background:#ffebee;color:var(--red)}
 
-  /* REMISION CARD */
-  .card {
-    background: var(--white);
-    border-radius:10px;
-    box-shadow: 0 3px 20px var(--shadow);
-    overflow: hidden;
-  }
+/* MAIN */
+.main{max-width:970px;margin:1.5rem auto;padding:0 1rem;display:grid;gap:1.2rem}
 
-  /* KRYSTAL HEADER */
-  .kr-header {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.2rem .8rem;
-    border-bottom: 2px solid var(--black);
-  }
-  .kr-logo-area { display:flex; flex-direction:column; align-items:center; }
-  .kr-logo-svg { width:52px; }
-  .kr-brand { font-family:'Barlow Condensed',sans-serif; font-size:.85rem; font-weight:700; letter-spacing:.08em; line-height:1.1; text-align:center; margin-top:.2rem; }
-  .kr-center { text-align:center; }
-  .kr-title1 { font-family:'Barlow Condensed',sans-serif; font-size:1.1rem; font-weight:700; letter-spacing:.06em; }
-  .kr-title2 {
-    background: var(--yellow); color:var(--black);
-    font-family:'Barlow Condensed',sans-serif; font-size:1.15rem; font-weight:700;
-    letter-spacing:.06em; padding:.2rem 1rem; margin:.3rem 0; display:inline-block; border-radius:3px;
-  }
-  .kr-phone { font-size:.82rem; font-weight:600; }
-  .kr-remision-box { text-align:right; }
-  .kr-remision-label { font-family:'Barlow Condensed',sans-serif; font-size:1rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
-  .kr-nro-row { display:flex; align-items:center; gap:.5rem; margin-top:.3rem; }
-  .kr-nro-row span { font-size:.75rem; font-weight:600; }
-  .kr-nro-box {
-    border: 2px solid var(--black); border-radius:4px;
-    padding:.25rem .6rem; font-weight:700; font-size:1rem; min-width:80px; text-align:center;
-    background: var(--gray); font-family:'Barlow',sans-serif; width:90px;
-  }
+/* CARD */
+.card{background:var(--white);border-radius:10px;box-shadow:0 3px 20px var(--shadow);overflow:hidden}
 
-  /* CLIENT INFO */
-  .kr-client { padding:.8rem 1.2rem; border-bottom:1px solid var(--border); display:grid; gap:.4rem; }
-  .kr-row { display:grid; grid-template-columns:80px 1fr; align-items:center; gap:.4rem; }
-  .kr-row-2 { display:grid; grid-template-columns:80px 1fr 80px 1fr; align-items:center; gap:.4rem; }
-  .kr-lbl { font-size:.75rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
-  .kr-input {
-    border:none; border-bottom:1.5px solid var(--border); padding:.3rem .4rem;
-    font-family:'Barlow',sans-serif; font-size:.88rem; color:var(--text);
-    background: transparent; width:100%; transition:border-color .2s;
-  }
-  .kr-input:focus { outline:none; border-color:var(--black); }
-  .kr-input::placeholder { color:#bbb; font-size:.82rem; }
+/* KR HEADER */
+.kr-header{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem;padding:1rem 1.2rem .8rem;border-bottom:2px solid var(--black)}
+.kr-logo-area{display:flex;flex-direction:column;align-items:center}
+.kr-logo-svg{width:52px}
+.kr-brand{font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.08em;line-height:1.1;text-align:center;margin-top:.2rem}
+.kr-center{text-align:center}
+.kr-title1{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:.06em}
+.kr-title2{background:var(--yellow);color:var(--black);font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:.06em;padding:.2rem 1rem;margin:.3rem 0;display:inline-block;border-radius:3px}
+.kr-phone{font-size:.82rem;font-weight:600}
+.kr-rem-box{text-align:right}
+.kr-rem-label{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.kr-nro-row{display:flex;align-items:center;gap:.5rem;margin-top:.3rem;justify-content:flex-end}
+.kr-nro-row span{font-size:.75rem;font-weight:600}
+.kr-nro-box{border:2px solid var(--black);border-radius:4px;padding:.25rem .6rem;font-weight:700;font-size:1rem;width:90px;text-align:center;background:var(--gray);font-family:'Barlow',sans-serif}
+.kr-fecha-box{border:2px solid var(--border);border-radius:5px;overflow:hidden;display:inline-grid;grid-template-columns:1fr 1px 1fr 1px 1fr;font-size:.75rem;margin-top:.5rem}
+.kr-fecha-cell{text-align:center}
+.kr-fecha-cell .fc-lbl{background:var(--gray);padding:.15rem .3rem;font-weight:700;font-size:.65rem;letter-spacing:.06em}
+.kr-fecha-cell .fc-val{padding:.2rem .3rem;font-weight:600;font-size:.82rem;min-width:28px}
+.kr-fecha-sep{background:var(--border)}
 
-  /* FECHA */
-  .kr-fecha-box {
-    border:2px solid var(--border); border-radius:5px; overflow:hidden;
-    display:inline-grid; grid-template-columns:1fr 1px 1fr 1px 1fr;
-    font-size:.75rem;
-  }
-  .kr-fecha-cell { text-align:center; }
-  .kr-fecha-cell .fc-lbl { background:var(--gray); padding:.15rem .3rem; font-weight:700; font-size:.65rem; letter-spacing:.06em; }
-  .kr-fecha-cell .fc-val { padding:.2rem .3rem; font-weight:600; font-size:.82rem; min-width:28px; }
-  .kr-fecha-sep { background:var(--border); }
+/* CLIENT */
+.kr-client{padding:.8rem 1.2rem;border-bottom:1px solid var(--border);display:grid;gap:.4rem}
+.kr-row{display:grid;grid-template-columns:80px 1fr;align-items:center;gap:.4rem}
+.kr-row-2{display:grid;grid-template-columns:80px 1fr 80px 1fr;align-items:center;gap:.4rem}
+.kr-lbl{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.kr-input{border:none;border-bottom:1.5px solid var(--border);padding:.3rem .4rem;font-family:'Barlow',sans-serif;font-size:.88rem;color:var(--text);background:transparent;width:100%;transition:border-color .2s}
+.kr-input:focus{outline:none;border-color:var(--black)}
+.kr-input::placeholder{color:#bbb;font-size:.82rem}
 
-  /* TABLE */
-  .kr-table-wrap { padding: 0 1.2rem; }
-  table { width:100%; border-collapse:collapse; font-size:.84rem; }
-  thead tr { background:var(--gray); }
-  th {
-    padding:.5rem .4rem; text-align:center; font-weight:700; font-size:.72rem;
-    text-transform:uppercase; letter-spacing:.05em; border:1px solid var(--border);
-  }
-  th.desc { text-align:left; }
-  td { border:1px solid var(--border); padding:.3rem .4rem; vertical-align:middle; }
-  td input {
-    width:100%; border:none; background:transparent; font-family:'Barlow',sans-serif;
-    font-size:.84rem; color:var(--text); text-align:center; padding:0;
-  }
-  td input:focus { outline:none; background:#fffde7; border-radius:2px; }
-  td input.left { text-align:left; }
-  td.total-cell { background:var(--gray); font-weight:600; text-align:right; padding-right:.5rem; font-size:.84rem; }
-  tr:hover td { background:#fafafa; }
-  tr:hover td.total-cell { background:#f0f0f0; }
+/* TABLE */
+.kr-table-wrap{padding:0 1.2rem}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+thead tr{background:var(--gray)}
+th{padding:.5rem .4rem;text-align:center;font-weight:700;font-size:.70rem;text-transform:uppercase;letter-spacing:.05em;border:1px solid var(--border)}
+th.left{text-align:left}
+td{border:1px solid var(--border);padding:.28rem .35rem;vertical-align:middle}
+td input,td select{width:100%;border:none;background:transparent;font-family:'Barlow',sans-serif;font-size:.83rem;color:var(--text);padding:0}
+td input{text-align:center}
+td input.left-align{text-align:left}
+td input:focus,td select:focus{outline:none;background:#fffde7;border-radius:2px}
+td.num{text-align:right;font-weight:600;padding-right:.5rem;font-size:.83rem;background:var(--gray)}
+td.stk{text-align:center;font-size:.78rem;font-weight:700}
+td.stk.ok{color:var(--green)}
+td.stk.no{color:var(--red)}
+tr:hover td{background:#fafafa}
+tr:hover td.num{background:#f0f0f0}
 
-  /* FOOTER TABLE */
-  .kr-footer { display:grid; grid-template-columns:1fr auto; gap:0; border-top:2px solid var(--black); }
-  .kr-obs { padding:.8rem 1.2rem; border-right:2px solid var(--black); }
-  .kr-obs-lbl { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:.3rem; }
-  .kr-obs textarea {
-    width:100%; border:none; font-family:'Barlow',sans-serif; font-size:.84rem;
-    resize:none; min-height:60px; background:transparent; color:var(--text);
-  }
-  .kr-obs textarea:focus { outline:none; }
-  .kr-totals { min-width:240px; }
-  .kr-total-row {
-    display:grid; grid-template-columns:1fr auto;
-    align-items:center; border-bottom:1px solid var(--border);
-  }
-  .kr-total-row:last-child { border-bottom:none; }
-  .kr-total-lbl { padding:.45rem .8rem; font-size:.78rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em; border-right:1px solid var(--border); }
-  .kr-total-val {
-    padding:.45rem .8rem; font-weight:700; font-size:.88rem; text-align:right;
-    min-width:100px;
-  }
-  .kr-total-row.gran-total { background:var(--yellow); }
-  .kr-total-row.gran-total .kr-total-lbl,
-  .kr-total-row.gran-total .kr-total-val { font-size:.95rem; }
-  .kr-total-input {
-    border:none; background:transparent; font-family:'Barlow',sans-serif;
-    font-weight:700; font-size:.88rem; text-align:right; width:100%; padding:0; color:var(--text);
-  }
-  .kr-total-input:focus { outline:none; background:#fff9c4; border-radius:2px; }
+/* PRODUCT SELECT */
+.prod-sel{width:100%;border:none;background:transparent;font-family:'Barlow',sans-serif;font-size:.82rem;color:var(--text);cursor:pointer}
+.prod-sel:focus{outline:none;background:#fffde7}
+.prod-sel option.agotado{color:#bbb}
 
-  /* SIGNATURES */
-  .kr-sign { display:grid; grid-template-columns:1fr 1fr; border-top:2px solid var(--black); }
-  .kr-sign-cell { padding:.6rem 1.2rem; }
-  .kr-sign-cell:first-child { border-right:1px solid var(--border); }
-  .kr-sign-lbl { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:.3rem; }
-  .kr-sign-input {
-    border:none; border-bottom:1.5px solid var(--border); width:100%;
-    font-family:'Barlow',sans-serif; font-size:.88rem; padding:.2rem .2rem;
-    background:transparent; color:var(--text);
-  }
-  .kr-sign-input:focus { outline:none; border-color:var(--black); }
+/* FOOTER */
+.kr-footer{display:grid;grid-template-columns:1fr auto;border-top:2px solid var(--black)}
+.kr-obs{padding:.8rem 1.2rem;border-right:2px solid var(--black)}
+.kr-obs-lbl{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.3rem}
+.kr-obs textarea{width:100%;border:none;font-family:'Barlow',sans-serif;font-size:.84rem;resize:none;min-height:60px;background:transparent;color:var(--text)}
+.kr-obs textarea:focus{outline:none}
+.kr-totals{min-width:240px}
+.kr-tr{display:grid;grid-template-columns:1fr auto;align-items:center;border-bottom:1px solid var(--border)}
+.kr-tr:last-child{border-bottom:none}
+.kt-lbl{padding:.45rem .8rem;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;border-right:1px solid var(--border)}
+.kt-val{padding:.45rem .8rem;font-weight:700;font-size:.88rem;text-align:right;min-width:100px}
+.kr-tr.gran{background:var(--yellow)}
+.kr-tr.gran .kt-lbl,.kr-tr.gran .kt-val{font-size:.95rem}
+.kt-input{border:none;background:transparent;font-family:'Barlow',sans-serif;font-weight:700;font-size:.88rem;text-align:right;width:100%;padding:0;color:var(--text)}
+.kt-input:focus{outline:none;background:#fff9c4;border-radius:2px}
 
-  /* BOTTOM INFO */
-  .kr-bottom {
-    background:var(--black); color:var(--white);
-    padding:.55rem 1.2rem; display:flex; align-items:center; justify-content:space-between;
-    gap:.5rem; flex-wrap:wrap; font-size:.72rem;
-  }
-  .kr-bottom span { display:flex; align-items:center; gap:.3rem; }
+/* SIGN */
+.kr-sign{display:grid;grid-template-columns:1fr 1fr;border-top:2px solid var(--black)}
+.kr-sign-cell{padding:.6rem 1.2rem}
+.kr-sign-cell:first-child{border-right:1px solid var(--border)}
+.kr-sign-lbl{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.3rem}
+.kr-sign-input{border:none;border-bottom:1.5px solid var(--border);width:100%;font-family:'Barlow',sans-serif;font-size:.88rem;padding:.2rem .2rem;background:transparent;color:var(--text)}
+.kr-sign-input:focus{outline:none;border-color:var(--black)}
 
-  /* HISTORY */
-  .hist-panel { background:white; border-radius:10px; box-shadow:0 3px 20px var(--shadow); overflow:hidden; display:none; }
-  .hist-panel.open { display:block; }
-  .hist-top { background:var(--black); color:white; padding:.8rem 1.2rem; display:flex; align-items:center; justify-content:space-between; }
-  .hist-top span { font-family:'Barlow Condensed',sans-serif; font-size:1rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
-  .hist-list { max-height:300px; overflow-y:auto; }
-  .hist-row { display:grid; grid-template-columns:80px 1fr auto auto; align-items:center; gap:.8rem; padding:.65rem 1.2rem; border-bottom:1px solid var(--border); cursor:pointer; transition:background .15s; }
-  .hist-row:hover { background:var(--gray); }
-  .hist-nro { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:1rem; }
-  .hist-cliente { font-size:.84rem; }
-  .hist-fecha { font-size:.74rem; color:var(--muted); }
-  .hist-total { font-weight:700; font-size:.88rem; }
-  .empty-hist { text-align:center; padding:2rem; opacity:.4; font-size:.85rem; }
+/* BOTTOM */
+.kr-bottom{background:var(--black);color:var(--white);padding:.55rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;font-size:.72rem}
 
-  /* SAVE BAR */
-  .save-bar {
-    position:fixed; bottom:0; left:0; right:0; background:var(--black);
-    padding:.85rem 1.5rem; display:flex; align-items:center; justify-content:space-between;
-    gap:1rem; z-index:200; flex-wrap:wrap;
-  }
-  .save-status { font-size:.78rem; }
-  .st-unsaved { color:var(--yellow); }
-  .st-saved { color:#66bb6a; }
-  .st-loading { color:#aaa; }
-  .st-error { color:#ef5350; }
+/* HISTORY */
+.hist-panel{background:var(--white);border-radius:10px;box-shadow:0 3px 20px var(--shadow);overflow:hidden;display:none}
+.hist-panel.open{display:block}
+.hist-top{background:var(--black);color:var(--white);padding:.8rem 1.2rem;display:flex;align-items:center;justify-content:space-between}
+.hist-top span{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.hist-list{max-height:280px;overflow-y:auto}
+.hist-row{display:grid;grid-template-columns:80px 1fr auto auto;align-items:center;gap:.8rem;padding:.65rem 1.2rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.hist-row:hover{background:var(--gray)}
+.hist-nro{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem}
+.hist-cliente{font-size:.84rem}
+.hist-fecha{font-size:.74rem;color:var(--muted)}
+.hist-total{font-weight:700;font-size:.88rem}
+.empty-hist{text-align:center;padding:2rem;opacity:.4;font-size:.85rem}
 
-  @media(max-width:620px){
-    .kr-header { grid-template-columns:1fr; text-align:center; }
-    .kr-row-2 { grid-template-columns:70px 1fr; }
-    .kr-footer { grid-template-columns:1fr; }
-    .kr-obs { border-right:none; border-bottom:2px solid var(--black); }
-    .kr-totals { min-width:unset; }
-    .hist-row { grid-template-columns:60px 1fr auto; }
-    .hist-fecha { display:none; }
-  }
+/* SAVE BAR */
+.save-bar{position:fixed;bottom:0;left:0;right:0;background:var(--black);padding:.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;z-index:200;flex-wrap:wrap}
+.st{font-size:.78rem}
+.st.unsaved{color:var(--yellow)}
+.st.saved{color:#66bb6a}
+.st.loading{color:#aaa}
+.st.err{color:#ef5350}
+
+@media(max-width:620px){
+  .kr-header{grid-template-columns:1fr;text-align:center}
+  .kr-row-2{grid-template-columns:70px 1fr}
+  .kr-footer{grid-template-columns:1fr}
+  .kr-obs{border-right:none;border-bottom:2px solid var(--black)}
+  .kr-totals{min-width:unset}
+  .hist-row{grid-template-columns:60px 1fr auto}
+  .hist-fecha{display:none}
+}
+@media print{
+  .topbar,.config-bar,.save-bar,.hist-panel,.banner{display:none!important}
+  body{background:white;padding:0}
+  .main{margin:0;padding:0;max-width:100%}
+  .card{box-shadow:none;border-radius:0}
+}
 </style>
 </head>
 <body>
 
 <!-- TOP BAR -->
 <div class="topbar">
-  <h1>📋 Remisiones · Krystal Soluciones</h1>
-  <div class="topbar-actions">
+  <h1>📋 Remisiones · Krystal</h1>
+  <div class="topbar-btns">
     <button class="btn btn-outline" onclick="toggleHistory()">📂 Historial</button>
     <button class="btn btn-outline" onclick="newRemision()">➕ Nueva</button>
+    <button class="btn btn-outline" onclick="recargarStock()">🔄 Stock</button>
     <button class="btn btn-outline" onclick="printRemision()">🖨️ Imprimir</button>
-    <button class="btn btn-yellow" id="btnSave" onclick="saveRemision()">💾 Guardar</button>
+    <button class="btn btn-yellow" onclick="saveRemision()">💾 Guardar</button>
   </div>
 </div>
 
-<!-- CONFIG -->
+<!-- CONFIG BAR -->
 <div class="config-bar" id="configBar">
-  <label>⚙️ Apps Script URL:</label>
-  <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/TU_ID/exec">
-  <button class="btn btn-yellow" onclick="saveScriptUrl()">✓ Guardar</button>
+  <label>⚙️ URL del Apps Script:</label>
+  <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec">
+  <button class="btn btn-yellow" onclick="saveUrl()">✓ Guardar</button>
 </div>
+
+<!-- BANNER -->
+<div class="banner" id="banner"></div>
 
 <div class="main">
 
@@ -255,18 +194,18 @@
   <div class="hist-panel" id="histPanel">
     <div class="hist-top">
       <span>Historial de Remisiones</span>
-      <button class="btn btn-outline" onclick="toggleHistory()" style="padding:.3rem .8rem;font-size:.75rem;">Cerrar</button>
+      <button class="btn btn-outline" onclick="toggleHistory()" style="padding:.3rem .8rem;font-size:.75rem">Cerrar</button>
     </div>
     <div class="hist-list" id="histList"><p class="empty-hist">No hay remisiones guardadas.</p></div>
   </div>
 
   <!-- REMISION CARD -->
-  <div class="card" id="remisionCard">
+  <div class="card" id="remCard">
 
-    <!-- HEADER KRYSTAL -->
+    <!-- HEADER -->
     <div class="kr-header">
       <div class="kr-logo-area">
-        <svg class="kr-logo-svg" viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="kr-logo-svg" viewBox="0 0 60 70" fill="none">
           <rect x="8" y="10" width="10" height="50" fill="#111"/>
           <rect x="22" y="25" width="10" height="35" fill="#111"/>
           <rect x="36" y="15" width="10" height="45" fill="#111"/>
@@ -279,25 +218,23 @@
         <div class="kr-title2">DIVISIONES DE BAÑO</div>
         <div class="kr-phone">📱 313 267 47 07 &nbsp;·&nbsp; 313 212 76 92</div>
       </div>
-      <div class="kr-remision-box">
-        <div class="kr-remision-label">Remisión</div>
+      <div class="kr-rem-box">
+        <div class="kr-rem-label">Remisión</div>
         <div class="kr-nro-row">
           <span>No.</span>
           <input class="kr-nro-box" type="text" id="nroDisplay" placeholder="0001" oninput="markDirty()">
         </div>
-        <div style="margin-top:.5rem;">
-          <div class="kr-fecha-box" id="fechaBox">
-            <div class="kr-fecha-cell"><div class="fc-lbl">D</div><div class="fc-val" id="fd">—</div></div>
-            <div class="kr-fecha-sep"></div>
-            <div class="kr-fecha-cell"><div class="fc-lbl">M</div><div class="fc-val" id="fm">—</div></div>
-            <div class="kr-fecha-sep"></div>
-            <div class="kr-fecha-cell"><div class="fc-lbl">A</div><div class="fc-val" id="fa">—</div></div>
-          </div>
+        <div class="kr-fecha-box">
+          <div class="kr-fecha-cell"><div class="fc-lbl">D</div><div class="fc-val" id="fd">—</div></div>
+          <div class="kr-fecha-sep"></div>
+          <div class="kr-fecha-cell"><div class="fc-lbl">M</div><div class="fc-val" id="fm">—</div></div>
+          <div class="kr-fecha-sep"></div>
+          <div class="kr-fecha-cell"><div class="fc-lbl">A</div><div class="fc-val" id="fa">—</div></div>
         </div>
       </div>
     </div>
 
-    <!-- CLIENT INFO -->
+    <!-- CLIENTE -->
     <div class="kr-client">
       <div class="kr-row">
         <span class="kr-lbl">Señores:</span>
@@ -315,20 +252,21 @@
       </div>
     </div>
 
-    <!-- TABLE -->
+    <!-- TABLA -->
     <div class="kr-table-wrap">
-      <table id="itemsTable">
+      <table id="tblItems">
         <thead>
           <tr>
-            <th class="desc" style="width:35%">Descripción</th>
-            <th style="width:12%">Tipo</th>
-            <th style="width:14%">Tamaño</th>
+            <th class="left" style="width:30%">Producto</th>
+            <th style="width:11%">Tipo</th>
+            <th style="width:13%">Tamaño</th>
+            <th style="width:8%">Stock</th>
             <th style="width:8%">Cant</th>
             <th style="width:13%">Precio</th>
             <th style="width:13%">Total</th>
           </tr>
         </thead>
-        <tbody id="itemsBody"></tbody>
+        <tbody id="tblBody"></tbody>
       </table>
     </div>
 
@@ -336,31 +274,17 @@
     <div class="kr-footer">
       <div class="kr-obs">
         <div class="kr-obs-lbl">Observaciones:</div>
-        <textarea id="f_obs" placeholder="Notas adicionales, condiciones de entrega..." oninput="markDirty()"></textarea>
+        <textarea id="f_obs" placeholder="Notas, condiciones de entrega..." oninput="markDirty()"></textarea>
       </div>
       <div class="kr-totals">
-        <div class="kr-total-row">
-          <div class="kr-total-lbl">Subtotal</div>
-          <div class="kr-total-val" id="tv_subtotal">$ 0</div>
-        </div>
-        <div class="kr-total-row">
-          <div class="kr-total-lbl">Abono</div>
-          <div class="kr-total-val">
-            <input class="kr-total-input" id="f_abono" type="text" placeholder="$ 0" oninput="calcTotals(); markDirty()">
-          </div>
-        </div>
-        <div class="kr-total-row">
-          <div class="kr-total-lbl">Saldo</div>
-          <div class="kr-total-val" id="tv_saldo">$ 0</div>
-        </div>
-        <div class="kr-total-row gran-total">
-          <div class="kr-total-lbl">TOTAL</div>
-          <div class="kr-total-val" id="tv_total">$ 0</div>
-        </div>
+        <div class="kr-tr"><div class="kt-lbl">Subtotal</div><div class="kt-val" id="tv_sub">$ 0</div></div>
+        <div class="kr-tr"><div class="kt-lbl">Abono</div><div class="kt-val"><input class="kt-input" id="f_abono" type="number" placeholder="0" oninput="calcTotals();markDirty()"></div></div>
+        <div class="kr-tr"><div class="kt-lbl">Saldo</div><div class="kt-val" id="tv_saldo">$ 0</div></div>
+        <div class="kr-tr gran"><div class="kt-lbl">TOTAL</div><div class="kt-val" id="tv_total">$ 0</div></div>
       </div>
     </div>
 
-    <!-- SIGNATURES -->
+    <!-- FIRMAS -->
     <div class="kr-sign">
       <div class="kr-sign-cell">
         <div class="kr-sign-lbl">Vendedor:</div>
@@ -384,225 +308,416 @@
 
 <!-- SAVE BAR -->
 <div class="save-bar">
-  <div class="save-status st-unsaved" id="saveStatus">Nueva remisión</div>
-  <button class="btn btn-yellow" id="btnSave2" onclick="saveRemision()">💾 Guardar remisión</button>
+  <div class="st unsaved" id="saveStatus">Nueva remisión</div>
+  <button class="btn btn-yellow" onclick="saveRemision()">💾 Guardar remisión</button>
 </div>
 
-<style>
-@media print {
-  .topbar, .config-bar, .save-bar, .hist-panel, .topbar-actions { display:none!important; }
-  body { background:white; padding:0; }
-  .main { margin:0; padding:0; max-width:100%; }
-  .card { box-shadow:none; border-radius:0; }
-}
-</style>
-
 <script>
-// ─── CONFIG ──────────────────────────────────────────────
+// ─── ESTADO GLOBAL ────────────────────────────────────────────
 const SK = 'krystal_script_url';
-const RK = 'krystal_remisiones';
-let SCRIPT_URL = localStorage.getItem(SK) || '';
-let currentId = null;
-let dirty = false;
+const RK = 'krystal_remisiones_v2';
+const N_ROWS = 6; // renglones en la tabla
 
-// ─── INIT ─────────────────────────────────────────────────
-window.onload = () => {
+let SCRIPT_URL = localStorage.getItem(SK) || '';
+let currentId  = null;
+let dirty      = false;
+let productos  = []; // cache del inventario { idProducto, nombre, descripcion, stock }
+
+// ─── INIT ──────────────────────────────────────────────────────
+window.onload = async () => {
   checkConfig();
-  buildRows();
+  setDate(null);
+  buildRows([]);
   newRemision();
+  if (SCRIPT_URL) await cargarProductos();
 };
 
+// ─── CONFIG ───────────────────────────────────────────────────
 function checkConfig() {
-  const bar = document.getElementById('configBar');
-  if(SCRIPT_URL) { bar.classList.add('hidden'); }
-  else { document.getElementById('scriptUrlInput').value = SCRIPT_URL; }
+  if (SCRIPT_URL) {
+    document.getElementById('configBar').classList.add('hidden');
+  } else {
+    document.getElementById('scriptUrlInput').value = '';
+  }
 }
 
-function saveScriptUrl() {
+function saveUrl() {
   const v = document.getElementById('scriptUrlInput').value.trim();
-  if(!v.startsWith('https://script.google.com')) { alert('URL inválida.'); return; }
+  if (!v.startsWith('https://script.google.com')) { alert('URL inválida'); return; }
   SCRIPT_URL = v;
   localStorage.setItem(SK, v);
   document.getElementById('configBar').classList.add('hidden');
-  setStatus('✓ URL configurada', 'saved');
+  setBanner('✓ URL configurada', 'ok', 3000);
+  cargarProductos();
 }
 
-// ─── ROWS ─────────────────────────────────────────────────
+// ─── BANNER ───────────────────────────────────────────────────
+let _bannerTimer = null;
+function setBanner(msg, tipo, autoHide) {
+  const el = document.getElementById('banner');
+  el.textContent = msg;
+  el.className = 'banner show ' + tipo;
+  clearTimeout(_bannerTimer);
+  if (autoHide) _bannerTimer = setTimeout(() => { el.className = 'banner'; }, autoHide);
+}
+
+// ─── CARGAR PRODUCTOS DESDE INVENTARIO (doGet) ────────────────
+async function cargarProductos() {
+  if (!SCRIPT_URL) return;
+  setBanner('⏳ Cargando productos del inventario...', 'info');
+  try {
+    const r = await fetch(SCRIPT_URL, { method: 'GET', cache: 'no-cache' });
+    const data = await r.json();
+    if (data.error) throw new Error(data.error);
+    productos = data;
+    setBanner(`✓ ${productos.length} productos cargados · Stock actualizado`, 'ok', 4000);
+    // reconstruir selects con los productos recién cargados
+    const items = collectItems();
+    buildRows(items);
+  } catch (err) {
+    setBanner('⚠ No se pudo cargar el inventario: ' + err.message, 'err');
+    buildRows([]);
+  }
+}
+
+async function recargarStock() {
+  await cargarProductos();
+}
+
+// ─── RECOGER ITEMS ACTUALES (para no perder datos al rebuild) ─
+function collectItems() {
+  const items = [];
+  for (let i = 0; i < N_ROWS; i++) {
+    const sel    = document.querySelector(`[data-r="${i}"][data-f="prod"]`);
+    const tipo   = document.querySelector(`[data-r="${i}"][data-f="tipo"]`);
+    const tam    = document.querySelector(`[data-r="${i}"][data-f="tam"]`);
+    const cant   = document.querySelector(`[data-r="${i}"][data-f="cant"]`);
+    const precio = document.querySelector(`[data-r="${i}"][data-f="precio"]`);
+    if (!sel) continue;
+    const id = sel.value;
+    const prod = productos.find(p => p.idProducto === id) || {};
+    items.push({
+      idProducto: id,
+      nombre: prod.nombre || '',
+      tipo:   tipo   ? tipo.value   : '',
+      tam:    tam    ? tam.value    : '',
+      cant:   cant   ? cant.value   : '',
+      precio: precio ? precio.value : '',
+    });
+  }
+  return items;
+}
+
+// ─── CONSTRUIR FILAS ──────────────────────────────────────────
 function buildRows(data) {
-  const tbody = document.getElementById('itemsBody');
+  const tbody = document.getElementById('tblBody');
   tbody.innerHTML = '';
-  for(let i=0;i<5;i++){
-    const d = data ? data[i] : {};
+  for (let i = 0; i < N_ROWS; i++) {
+    const d = data && data[i] ? data[i] : {};
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><select data-r="${i}" data-f="desc" oninput="markDirty()" style="width:100%;border:none;background:transparent;font-family:'Barlow',sans-serif;font-size:.84rem;color:var(--text);padding:.1rem 0;cursor:pointer;">
-        <option value="">— Seleccionar —</option>
-        <option value="Vidrio Fijo" ${d&&d.desc==='Vidrio Fijo'?'selected':''}>Vidrio Fijo</option>
-        <option value="Vidrio Puerta" ${d&&d.desc==='Vidrio Puerta'?'selected':''}>Vidrio Puerta</option>
-        <option value="Vidrio Personalizado" ${d&&d.desc==='Vidrio Personalizado'?'selected':''}>Vidrio Personalizado</option>
-        <option value="Kit Redondo" ${d&&d.desc==='Kit Redondo'?'selected':''}>Kit Redondo</option>
-        <option value="Bisagras" ${d&&d.desc==='Bisagras'?'selected':''}>Bisagras</option>
-        <option value="Boquetes" ${d&&d.desc==='Boquetes'?'selected':''}>Boquetes</option>
-        <option value="Pie de Amigo" ${d&&d.desc==='Pie de Amigo'?'selected':''}>Pie de Amigo</option>
-        <option value="Tubo 1&quot; Redondo" ${d&&d.desc==='Tubo 1" Redondo'?'selected':''}>Tubo 1" Redondo</option>
-        <option value="Burbuja" ${d&&d.desc==='Burbuja'?'selected':''}>Burbuja</option>
-        <option value="Barredor" ${d&&d.desc==='Barredor'?'selected':''}>Barredor</option>
-        <option value="Instalación" ${d&&d.desc==='Instalación'?'selected':''}>Instalación</option>
-        <option value="Transporte" ${d&&d.desc==='Transporte'?'selected':''}>Transporte</option>
-        <option value="Espejo" ${d&&d.desc==='Espejo'?'selected':''}>Espejo</option>
-        <option value="Pintura Negra" ${d&&d.desc==='Pintura Negra'?'selected':''}>Pintura Negra</option>
-        <option value="Pintura Cromada" ${d&&d.desc==='Pintura Cromada'?'selected':''}>Pintura Cromada</option>
-      </select></td>
-      <td><input type="text" data-r="${i}" data-f="tipo" value="${d&&d.tipo||''}" placeholder="Tipo" oninput="markDirty()"></td>
-      <td><input type="text" data-r="${i}" data-f="tam" value="${d&&d.tam||''}" placeholder="Ej: 80x120" oninput="markDirty()"></td>
-      <td><input type="number" data-r="${i}" data-f="cant" value="${d&&d.cant||''}" placeholder="0" min="0" oninput="calcTotals(); markDirty()"></td>
-      <td><input type="number" data-r="${i}" data-f="precio" value="${d&&d.precio||''}" placeholder="0" min="0" oninput="calcTotals(); markDirty()"></td>
-      <td class="total-cell" id="rowTotal${i}">$ 0</td>
-    `;
+
+    // Producto (select dinámico)
+    const tdP = document.createElement('td');
+    tdP.appendChild(makeSelect(i, d.idProducto || ''));
+    tr.appendChild(tdP);
+
+    // Tipo
+    tr.appendChild(makeInputCell(i, 'tipo', d.tipo || '', 'Tipo', true));
+
+    // Tamaño
+    tr.appendChild(makeInputCell(i, 'tam', d.tam || '', 'Ej: 80x120', false));
+
+    // Stock
+    const tdS = document.createElement('td');
+    tdS.id = `stk${i}`;
+    tdS.className = 'stk';
+    tdS.textContent = '—';
+    tr.appendChild(tdS);
+
+    // Cantidad
+    const tdC = document.createElement('td');
+    const inpC = document.createElement('input');
+    inpC.type = 'number'; inpC.min = '0';
+    inpC.dataset.r = i; inpC.dataset.f = 'cant';
+    inpC.value = d.cant || '';
+    inpC.placeholder = '0';
+    inpC.oninput = () => { validarCant(i); calcTotals(); markDirty(); };
+    tdC.appendChild(inpC);
+    tr.appendChild(tdC);
+
+    // Precio
+    tr.appendChild(makeInputCell(i, 'precio', d.precio || '', '0', false, true));
+
+    // Total (calculado)
+    const tdT = document.createElement('td');
+    tdT.className = 'num';
+    tdT.id = `tot${i}`;
+    tdT.textContent = '$ 0';
+    tr.appendChild(tdT);
+
     tbody.appendChild(tr);
+
+    // Mostrar stock inicial si había producto
+    if (d.idProducto) updateStockCell(i, d.idProducto);
   }
   calcTotals();
 }
 
-// ─── TOTALS ───────────────────────────────────────────────
+function makeInputCell(row, field, val, ph, isLeft, isNum) {
+  const td = document.createElement('td');
+  const inp = document.createElement('input');
+  inp.type = isNum ? 'number' : 'text';
+  inp.dataset.r = row; inp.dataset.f = field;
+  inp.value = val; inp.placeholder = ph;
+  if (isLeft) inp.className = 'left-align';
+  inp.oninput = () => { calcTotals(); markDirty(); };
+  td.appendChild(inp);
+  return td;
+}
+
+// ─── SELECT DINÁMICO DE PRODUCTO ──────────────────────────────
+function makeSelect(row, valorActual) {
+  const sel = document.createElement('select');
+  sel.className = 'prod-sel';
+  sel.dataset.r = row; sel.dataset.f = 'prod';
+
+  const blank = new Option('— Seleccionar producto —', '');
+  sel.appendChild(blank);
+
+  if (productos.length === 0) {
+    sel.appendChild(new Option('⏳ Cargando inventario...', '', false, false));
+  } else {
+    productos.forEach(p => {
+      const lbl = `${p.idProducto} · ${p.nombre}  (Stock: ${p.stock})`;
+      const opt = new Option(lbl, p.idProducto);
+      if (p.stock <= 0) opt.className = 'agotado';
+      if (p.idProducto === valorActual) opt.selected = true;
+      sel.appendChild(opt);
+    });
+  }
+
+  sel.onchange = () => {
+    updateStockCell(row, sel.value);
+    validarCant(row);
+    calcTotals();
+    markDirty();
+  };
+  return sel;
+}
+
+// ─── CELDA STOCK ──────────────────────────────────────────────
+function updateStockCell(row, idProducto) {
+  const cell = document.getElementById(`stk${row}`);
+  if (!cell) return;
+  if (!idProducto) { cell.textContent = '—'; cell.className = 'stk'; return; }
+  const p = productos.find(x => x.idProducto === idProducto);
+  if (!p) { cell.textContent = '?'; cell.className = 'stk'; return; }
+  cell.textContent = p.stock;
+  cell.className = p.stock > 0 ? 'stk ok' : 'stk no';
+}
+
+// ─── VALIDAR CANTIDAD vs STOCK ────────────────────────────────
+function validarCant(row) {
+  const sel  = document.querySelector(`[data-r="${row}"][data-f="prod"]`);
+  const cant = document.querySelector(`[data-r="${row}"][data-f="cant"]`);
+  if (!sel || !cant) return;
+  const p = productos.find(x => x.idProducto === sel.value);
+  const c = Number(cant.value) || 0;
+  if (p && c > p.stock) {
+    cant.style.color = 'var(--red)'; cant.style.fontWeight = '700';
+  } else {
+    cant.style.color = ''; cant.style.fontWeight = '';
+  }
+}
+
+// ─── TOTALES ──────────────────────────────────────────────────
 function calcTotals() {
   let sub = 0;
-  for(let i=0;i<5;i++){
-    const cant  = parseFloat(document.querySelector(`[data-r="${i}"][data-f="cant"]`)?.value)||0;
-    const precio= parseFloat(document.querySelector(`[data-r="${i}"][data-f="precio"]`)?.value)||0;
-    const total = cant * precio;
-    const el = document.getElementById('rowTotal'+i);
-    if(el) el.textContent = fmt(total);
-    sub += total;
+  for (let i = 0; i < N_ROWS; i++) {
+    const c = parseFloat(document.querySelector(`[data-r="${i}"][data-f="cant"]`)?.value) || 0;
+    const p = parseFloat(document.querySelector(`[data-r="${i}"][data-f="precio"]`)?.value) || 0;
+    const t = c * p;
+    const el = document.getElementById(`tot${i}`);
+    if (el) el.textContent = fmt(t);
+    sub += t;
   }
-  const abono = parseFloat(document.getElementById('f_abono').value.replace(/[^0-9.]/g,''))||0;
-  const saldo  = sub - abono;
-  document.getElementById('tv_subtotal').textContent = fmt(sub);
-  document.getElementById('tv_saldo').textContent    = fmt(saldo);
-  document.getElementById('tv_total').textContent    = fmt(sub);
+  const abono = parseFloat(document.getElementById('f_abono').value) || 0;
+  document.getElementById('tv_sub').textContent   = fmt(sub);
+  document.getElementById('tv_saldo').textContent = fmt(sub - abono);
+  document.getElementById('tv_total').textContent = fmt(sub);
 }
 
-function fmt(n) {
-  return '$ ' + Math.round(n).toLocaleString('es-CO');
-}
+function fmt(n) { return '$ ' + Math.round(n).toLocaleString('es-CO'); }
 
-// ─── DATE ─────────────────────────────────────────────────
-function setDate(dateStr) {
-  const d = dateStr ? new Date(dateStr+'T12:00:00') : new Date();
+// ─── FECHA ────────────────────────────────────────────────────
+function setDate(s) {
+  const d = s ? new Date(s + 'T12:00:00') : new Date();
   document.getElementById('fd').textContent = String(d.getDate()).padStart(2,'0');
   document.getElementById('fm').textContent = String(d.getMonth()+1).padStart(2,'0');
   document.getElementById('fa').textContent = String(d.getFullYear()).slice(-2);
 }
 
-// ─── NRO ──────────────────────────────────────────────────
+// ─── LOCAL STORAGE ────────────────────────────────────────────
+function getAll()     { return JSON.parse(localStorage.getItem(RK) || '[]'); }
+function saveAll(arr) { localStorage.setItem(RK, JSON.stringify(arr)); }
 function getNextNro() {
-  const rems = getAll();
-  if(!rems.length) return 1;
-  const max = Math.max(...rems.map(r=>parseInt(r.nro)||0));
-  return max + 1;
+  const all = getAll();
+  if (!all.length) return 1;
+  return Math.max(...all.map(r => parseInt(r.nro) || 0)) + 1;
 }
 
-function getAll() {
-  return JSON.parse(localStorage.getItem(RK)||'[]');
-}
-
-function saveAll(arr) {
-  localStorage.setItem(RK, JSON.stringify(arr));
-}
-
-// ─── NEW ──────────────────────────────────────────────────
+// ─── NUEVA REMISIÓN ───────────────────────────────────────────
 function newRemision() {
   currentId = null;
   const nro = getNextNro();
   document.getElementById('nroDisplay').value = String(nro).padStart(4,'0');
   setDate(null);
-  ['f_senores','f_direccion','f_telefono','f_correo','f_obs','f_vendedor','f_cliente_firma','f_abono'].forEach(id=>{
+  ['f_senores','f_direccion','f_telefono','f_correo',
+   'f_obs','f_vendedor','f_cliente_firma','f_abono'].forEach(id => {
     document.getElementById(id).value = '';
   });
-  buildRows();
-  setStatus('Nueva remisión · No. '+String(nro).padStart(4,'0'), 'unsaved');
+  buildRows([]);
+  setStatus('Nueva remisión · No. ' + String(nro).padStart(4,'0'), 'unsaved');
   dirty = false;
 }
 
-// ─── COLLECT ──────────────────────────────────────────────
+// ─── COLLECT DATA ─────────────────────────────────────────────
 function collectData() {
-  const items = [];
-  for(let i=0;i<5;i++){
-    items.push({
-      desc:   document.querySelector(`[data-r="${i}"][data-f="desc"]`)?.value||'',
-      tipo:   document.querySelector(`[data-r="${i}"][data-f="tipo"]`)?.value||'',
-      tam:    document.querySelector(`[data-r="${i}"][data-f="tam"]`)?.value||'',
-      cant:   document.querySelector(`[data-r="${i}"][data-f="cant"]`)?.value||'',
-      precio: document.querySelector(`[data-r="${i}"][data-f="precio"]`)?.value||'',
-    });
-  }
-  const nro = document.getElementById('nroDisplay').value;
-  const abono = parseFloat(document.getElementById('f_abono').value.replace(/[^0-9.]/g,''))||0;
-  let sub=0;
-  items.forEach(it=>{ sub += (parseFloat(it.cant)||0)*(parseFloat(it.precio)||0); });
+  const items = collectItems();
+  const nro   = document.getElementById('nroDisplay').value;
+  const abono = parseFloat(document.getElementById('f_abono').value) || 0;
+  let sub = 0;
+  items.forEach(it => { sub += (parseFloat(it.cant)||0) * (parseFloat(it.precio)||0); });
   return {
-    id: currentId || Date.now(),
+    id:           currentId || Date.now(),
     nro,
-    fecha: new Date().toISOString().split('T')[0],
-    senores:     document.getElementById('f_senores').value,
-    direccion:   document.getElementById('f_direccion').value,
-    telefono:    document.getElementById('f_telefono').value,
-    correo:      document.getElementById('f_correo').value,
-    vendedor:    document.getElementById('f_vendedor').value,
-    cliente_firma: document.getElementById('f_cliente_firma').value,
-    obs:         document.getElementById('f_obs').value,
-    abono:       String(abono),
-    total:       String(sub),
-    saldo:       String(sub - abono),
-    items:       JSON.stringify(items),
-    savedAt:     new Date().toISOString(),
+    fecha:        new Date().toISOString().split('T')[0],
+    senores:      document.getElementById('f_senores').value,
+    direccion:    document.getElementById('f_direccion').value,
+    telefono:     document.getElementById('f_telefono').value,
+    correo:       document.getElementById('f_correo').value,
+    vendedor:     document.getElementById('f_vendedor').value,
+    cliente_firma:document.getElementById('f_cliente_firma').value,
+    obs:          document.getElementById('f_obs').value,
+    abono:        String(abono),
+    total:        String(sub),
+    saldo:        String(sub - abono),
+    items:        JSON.stringify(items),
+    savedAt:      new Date().toISOString(),
   };
 }
 
-// ─── APPLY ────────────────────────────────────────────────
-function applyData(data) {
-  currentId = data.id;
-  document.getElementById('nroDisplay').value = data.nro;
-  setDate(data.fecha);
-  document.getElementById('f_senores').value       = data.senores||'';
-  document.getElementById('f_direccion').value     = data.direccion||'';
-  document.getElementById('f_telefono').value      = data.telefono||'';
-  document.getElementById('f_correo').value        = data.correo||'';
-  document.getElementById('f_vendedor').value      = data.vendedor||'';
-  document.getElementById('f_cliente_firma').value = data.cliente_firma||'';
-  document.getElementById('f_obs').value           = data.obs||'';
-  document.getElementById('f_abono').value         = data.abono||'';
-  const items = data.items ? JSON.parse(data.items) : [];
+// ─── APPLY DATA ───────────────────────────────────────────────
+function applyData(d) {
+  currentId = d.id;
+  document.getElementById('nroDisplay').value       = d.nro;
+  setDate(d.fecha);
+  document.getElementById('f_senores').value        = d.senores      || '';
+  document.getElementById('f_direccion').value      = d.direccion    || '';
+  document.getElementById('f_telefono').value       = d.telefono     || '';
+  document.getElementById('f_correo').value         = d.correo       || '';
+  document.getElementById('f_vendedor').value       = d.vendedor     || '';
+  document.getElementById('f_cliente_firma').value  = d.cliente_firma|| '';
+  document.getElementById('f_obs').value            = d.obs          || '';
+  document.getElementById('f_abono').value          = d.abono        || '';
+  const items = d.items ? JSON.parse(d.items) : [];
   buildRows(items);
 }
 
-// ─── SAVE ────────────────────────────────────────────────
+// ─── GUARDAR ──────────────────────────────────────────────────
 async function saveRemision() {
   const data = collectData();
-  // Local
+  const items = JSON.parse(data.items);
+  const validos = items.filter(it => it.idProducto && Number(it.cant) > 0);
+
+  // Validación local: al menos un producto
+  if (validos.length === 0) {
+    setStatus('⚠ Agrega al menos un producto con cantidad', 'err');
+    return;
+  }
+
+  // Validación local de stock (segunda línea de defensa)
+  const errStock = [];
+  validos.forEach(it => {
+    const p = productos.find(x => x.idProducto === it.idProducto);
+    if (p && Number(it.cant) > p.stock) {
+      errStock.push(`${it.idProducto}: pedido ${it.cant}, disponible ${p.stock}`);
+    }
+  });
+  if (errStock.length) {
+    setBanner('❌ Stock insuficiente — revisa cantidades en rojo', 'err');
+    alert('Stock insuficiente:\n' + errStock.join('\n'));
+    return;
+  }
+
+  // Guardar localmente
   const all = getAll();
-  const idx = all.findIndex(r=>r.id===data.id);
-  if(idx>=0) all[idx]=data; else all.push(data);
+  const idx = all.findIndex(r => r.id === data.id);
+  if (idx >= 0) all[idx] = data; else all.push(data);
   saveAll(all);
   currentId = data.id;
-  setStatus('✓ Guardada · Remisión No. '+data.nro+' · '+new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'}), 'saved');
-  dirty = false;
   renderHistory();
-  // Google Sheets
-  if(SCRIPT_URL) {
+
+  // Enviar a Google Sheets
+  if (!SCRIPT_URL) {
+    setStatus('✓ Guardada localmente · No. ' + data.nro, 'saved');
+    dirty = false;
+    return;
+  }
+
+  setStatus('⏳ Sincronizando con Sheets...', 'loading');
+  document.querySelectorAll('.btn').forEach(b => b.disabled = true);
+
+  try {
+    // Enviamos como POST con body JSON
+    // El script retorna JSON { ok, renglones } o { ok:false, error }
+    // Usamos no-cors porque el script es de Google (no soporta CORS real),
+    // pero primero intentamos con cors para leer la respuesta si es posible
+    let respOk = true;
+    let errMsg  = '';
+
     try {
-      const flat = {...data};
-      const params = new URLSearchParams({ action:'save', data: JSON.stringify(flat) });
-      await fetch(SCRIPT_URL+'?'+params.toString(), {method:'GET', mode:'no-cors'});
-    } catch(e){}
+      const resp = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' }, // evita preflight
+        body: JSON.stringify({ ...data }),
+      });
+      const json = await resp.json();
+      if (!json.ok) { respOk = false; errMsg = json.error || 'Error desconocido'; }
+    } catch (_) {
+      // Fallback no-cors (no podemos leer respuesta pero el POST llega)
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        cache: 'no-cache',
+        body: JSON.stringify({ ...data }),
+      });
+    }
+
+    if (!respOk) {
+      setBanner('❌ ' + errMsg, 'err');
+      setStatus('❌ Error al guardar: ' + errMsg, 'err');
+    } else {
+      setBanner('✓ Guardado en Google Sheets · ' + validos.length + ' renglón(es)', 'ok', 5000);
+      setStatus('✓ Guardada · No. ' + data.nro + ' · ' + new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'}), 'saved');
+      dirty = false;
+      // Recargar stock para reflejar las salidas recién registradas
+      await cargarProductos();
+    }
+
+  } catch (err) {
+    setBanner('⚠ Error de conexión — guardada solo localmente', 'warn');
+    setStatus('⚠ Guardada localmente · No. ' + data.nro, 'err');
+  } finally {
+    document.querySelectorAll('.btn').forEach(b => b.disabled = false);
   }
 }
 
-// ─── STATUS ──────────────────────────────────────────────
-function setStatus(msg, type) {
+// ─── STATUS BAR ───────────────────────────────────────────────
+function setStatus(msg, tipo) {
   const el = document.getElementById('saveStatus');
   el.textContent = msg;
-  el.className = 'save-status st-'+type;
+  el.className = 'st ' + tipo;
 }
 
 function markDirty() {
@@ -611,50 +726,46 @@ function markDirty() {
   calcTotals();
 }
 
-// ─── HISTORY ─────────────────────────────────────────────
+// ─── HISTORIAL ────────────────────────────────────────────────
 function toggleHistory() {
   const p = document.getElementById('histPanel');
   p.classList.toggle('open');
-  if(p.classList.contains('open')) renderHistory();
+  if (p.classList.contains('open')) renderHistory();
 }
 
 function renderHistory() {
   const list = document.getElementById('histList');
-  const all = getAll().slice().reverse();
-  if(!all.length){ list.innerHTML='<p class="empty-hist">No hay remisiones guardadas.</p>'; return; }
-  list.innerHTML = all.map(r=>`
+  const all  = getAll().slice().reverse();
+  if (!all.length) { list.innerHTML = '<p class="empty-hist">No hay remisiones guardadas.</p>'; return; }
+  list.innerHTML = all.map(r => `
     <div class="hist-row" onclick="loadRemision('${r.id}')">
       <div class="hist-nro">No. ${r.nro}</div>
-      <div class="hist-cliente">${r.senores||'Sin nombre'}</div>
-      <div class="hist-fecha">${formatDate(r.fecha)}</div>
+      <div class="hist-cliente">${r.senores || 'Sin nombre'}</div>
+      <div class="hist-fecha">${fmtDate(r.fecha)}</div>
       <div class="hist-total">${fmt(parseFloat(r.total)||0)}</div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
 function loadRemision(id) {
-  const all = getAll();
-  const r = all.find(x=>String(x.id)===String(id));
-  if(!r) return;
+  const r = getAll().find(x => String(x.id) === String(id));
+  if (!r) return;
   applyData(r);
   document.getElementById('histPanel').classList.remove('open');
-  setStatus('Remisión No. '+r.nro+' · '+formatDate(r.fecha), 'saved');
+  setStatus('Remisión No. ' + r.nro + ' · ' + fmtDate(r.fecha), 'saved');
   dirty = false;
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function formatDate(d) {
-  if(!d) return '';
+function fmtDate(d) {
+  if (!d) return '';
   const [y,m,day] = d.split('-');
-  const months=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  return `${parseInt(day)} ${months[parseInt(m)-1]} ${y}`;
+  const M = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  return `${parseInt(day)} ${M[parseInt(m)-1]} ${y}`;
 }
 
-function printRemision() {
-  window.print();
-}
+function printRemision() { window.print(); }
 
-window.onbeforeunload = e => { if(dirty) return ''; };
+window.onbeforeunload = () => { if (dirty) return ''; };
 </script>
 </body>
 </html>
