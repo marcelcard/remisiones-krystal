@@ -362,7 +362,7 @@ function setBanner(msg, tipo, autoHide) {
 }
 
 // ─── CARGAR PRODUCTOS DESDE INVENTARIO (doGet) ────────────────
-asyncfunction cargarProductos() {
+async function cargarProductos() {
   if (!SCRIPT_URL) return;
   setBanner('⏳ Cargando productos del inventario...', 'info');
 
